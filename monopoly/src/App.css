@@ -23,12 +23,24 @@
   padding-bottom: 100%;
 }
 
-.header-color {
+.header-section,
+.cell-inner-chosen {
   height: 3em;
 }
 
+.user-logo {
+  display: block;
+  height:2em;
+}
+
+.user-logo svg{
+  height: 2em;
+  width: 2em;
+}
+
 .cell-inner-chosen-edge {
-  width: 1em;
+  min-width: 2em;
+  min-width: 2em;
   background-color: green;
 }
 
