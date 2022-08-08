@@ -1,8 +1,15 @@
+import GameConfig, { PropertyConfig, PlayerConfig } from "../Config/GameConfig";
 import { sizesTheme } from "../Config/theme";
 import Cell from "./Cell";
 import { SelectedArea } from "./SelectedArea";
 
-function PlayArea() {
+interface PlayAreaProps {
+  game: GameConfig;
+}
+
+function PlayArea(props: PlayAreaProps) {
+  const { players, properties } = props.game;
+
   function getTopRow() {
     var chosen = [<th key="-2"></th>];
     var cells = [<th key="-1"></th>];
@@ -14,7 +21,7 @@ function PlayArea() {
       );
       cells.push(
         <th key={i}>
-          <Cell num={i} />
+          <Cell num={i} cellConfig={getCellConfig(i)} />
         </th>
       );
     }
@@ -28,6 +35,21 @@ function PlayArea() {
     );
   }
 
+  function getCellConfig(i: number) {
+    const configs = properties.filter((p: PropertyConfig) => p.id == i);
+    const config = configs && configs.length > 0 ? configs[0] : null;
+    return config;
+  }
+
+  function getSelectedUsers(cellNum: number) {
+    const configs = players.filter(
+      (p: PlayerConfig) => p.currentPosition == cellNum
+    );
+    const config =
+      configs && configs.length > 0 ? configs.map((c) => c.symbolId) : null;
+    return config;
+  }
+
   function getBottomRow() {
     var chosen = [<th key="-2"></th>];
     var cells = [<th key="-1"></th>];
@@ -39,7 +61,7 @@ function PlayArea() {
       );
       cells.push(
         <th key={i}>
-          <Cell num={i} />
+          <Cell num={i} cellConfig={getCellConfig(i)} />
         </th>
       );
     }
@@ -64,11 +86,11 @@ function PlayArea() {
           <SelectedArea cellNum={20 - rowNum} />
         </th>
         <th key="-1">
-          <Cell num={20 - rowNum} />
+          <Cell num={20 - rowNum} cellConfig={getCellConfig(20 - rowNum)} />
         </th>
         {centerPieces}
         <th key="100">
-          <Cell num={30 + rowNum} />
+          <Cell num={30 + rowNum} cellConfig={getCellConfig(30 + rowNum)} />
         </th>
         <th key="101">
           <SelectedArea cellNum={30 + rowNum} />
@@ -102,10 +124,10 @@ const styles = {
   gameBoard: {
     margin: "auto",
     width: "calc(100% - 1em)",
-    "max-width": sizesTheme.overallBoardWidth,
+    maxWidth: sizesTheme.overallBoardWidth,
     height: "auto",
     display: "flex",
-    "flex-direction": "column",
+    flexDirection: "column" as const,
   },
 };
 

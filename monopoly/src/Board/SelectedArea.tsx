@@ -34,14 +34,14 @@ const styles = {
   logoVertical: {
     height: sizesTheme.cellWidth,
     width: sizesTheme.selectionHeight,
-    "background-color": "green",
+    backgroundColor: "green",
     border: "1px solid green",
   },
 
   logoHorizontal: {
     width: sizesTheme.cellWidth,
     height: sizesTheme.selectionHeight,
-    "background-color": "green",
+    backgroundColor: "green",
     border: "1px solid green",
   },
 

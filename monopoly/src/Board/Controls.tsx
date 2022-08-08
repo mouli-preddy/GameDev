@@ -1,13 +1,18 @@
 import React from "react";
 
-function Controls() {
+export interface ControlProps {
+  rollDice: (left: number, right: number) => void;
+  endChance: () => void;
+}
+
+function Controls(props: ControlProps) {
   const min = 1;
   const max = 6;
 
   function rollDice() {
     const left = Math.floor(Math.random() * (max - min + 1) + min);
     const right = Math.floor(Math.random() * (max - min + 1) + min);
-    console.log("dice rolled with result", left, right);
+    props.rollDice(left, right);
   }
 
   function doneTurn() {
@@ -40,11 +45,11 @@ const styles = {
   button: {
     border: "none",
     background: "none",
-    "background-color": "brown",
+    backgroundColor: "brown",
     color: "white",
     padding: "8px 32px",
     margin: "5px 4px",
-    "border-radius": "4px",
+    borderRadius: "4px",
   },
 };
 

@@ -11,10 +11,10 @@ function App() {
 
 const styles = {
   appStyle: {
-    "text-align": "center",
+    textAlign: "center" as const,
     width: "100%",
     height: "100%",
-    "margin-top": "2em",
+    marginTop: "2em",
   },
 };
 

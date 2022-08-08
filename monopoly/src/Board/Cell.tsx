@@ -2,24 +2,37 @@ import { ReactComponent as HouseICON } from "../userIcons/house.svg";
 import { ReactComponent as HotelICON } from "../userIcons/hotel.svg";
 import { gameConfig } from "../Config/config";
 import { sizesTheme } from "../Config/theme";
+import { PropertyConfig } from "../Config/GameConfig";
 
 export interface CellProps {
   num: number;
+  cellConfig?: PropertyConfig | null;
 }
 
 function Cell(props: CellProps) {
-  const { num } = props;
+  const { num, cellConfig } = props;
   const config = gameConfig[num];
+  const { houses = null, hotels = null } = cellConfig || {};
+  const houseSymbols =
+    houses && houses > 0
+      ? Array.from(Array(houses).keys()).map((i) => (
+          <HouseICON style={styles.svg} />
+        ))
+      : null;
+  const hotelSymbols =
+    hotels && hotels > 0
+      ? Array.from(Array(hotels).keys()).map((i) => (
+          <HotelICON style={styles.svg} />
+        ))
+      : null;
 
   return (
     <div style={styles.cell}>
       <div
         style={{ ...styles.headerSection, backgroundColor: config.colorCode }}
       >
-        <HouseICON style={styles.svg} />
-        <HouseICON style={styles.svg} />
-        <HouseICON style={styles.svg} />
-        <HotelICON style={styles.svg} />
+        {houseSymbols}
+        {hotelSymbols}
       </div>
       {config.name}
       {config.rentValue && <div>$ {config.rentValue}</div>}

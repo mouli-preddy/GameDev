@@ -1,16 +1,23 @@
-import * as React from 'react';
-import Controls from './Controls';
-import PlayArea from './PlayArea';
+import * as React from "react";
+import { sampleGame } from "../Config/GameConfig";
+import Controls from "./Controls";
+import PlayArea from "./PlayArea";
 
-type Props = {
-
-};
+type Props = {};
 
 export const Board = (props: Props) => {
-    return (
-        <div>
-            <Controls />
-            <PlayArea />
-        </div>
-    );
+  function onRollDice(left: number, right: number) {
+    console.log("dice rolled", left, right);
+  }
+
+  function endChance() {
+    console.log("end chance");
+  }
+
+  return (
+    <div>
+      <Controls rollDice={onRollDice} endChance={endChance} />
+      <PlayArea game={sampleGame}/>
+    </div>
+  );
 };
