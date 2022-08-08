@@ -1,3 +1,4 @@
+import { sizesTheme } from "../Config/theme";
 import Cell from "./Cell";
 import { SelectedArea } from "./SelectedArea";
 
@@ -101,7 +102,7 @@ const styles = {
   gameBoard: {
     margin: "auto",
     width: "calc(100% - 1em)",
-    "max-width": "93em",
+    "max-width": sizesTheme.overallBoardWidth,
     height: "auto",
     display: "flex",
     "flex-direction": "column",

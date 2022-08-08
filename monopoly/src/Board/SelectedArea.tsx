@@ -4,6 +4,7 @@ import { ReactComponent as CapICON } from "../userIcons/cap.svg";
 import { ReactComponent as DogICON } from "../userIcons/dog.svg";
 import { ReactComponent as DragonICON } from "../userIcons/dragon.svg";
 import { isHorizontalSelection } from "../Config/helpers";
+import { sizesTheme } from "../Config/theme";
 
 type Props = {
   cellNum: number;
@@ -31,21 +32,21 @@ export const SelectedArea = (props: Props) => {
 
 const styles = {
   logoVertical: {
-    height: "8em",
-    width: "2em",
+    height: sizesTheme.cellWidth,
+    width: sizesTheme.selectionHeight,
     "background-color": "green",
     border: "1px solid green",
   },
 
   logoHorizontal: {
-    width: "8em",
-    height: "2em",
+    width: sizesTheme.cellWidth,
+    height: sizesTheme.selectionHeight,
     "background-color": "green",
     border: "1px solid green",
   },
 
   svg: {
-    height: "1.8em",
-    width: "1.8em",
+    height: sizesTheme.iconSize,
+    width: sizesTheme.iconSize,
   },
 };

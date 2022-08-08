@@ -1,6 +1,7 @@
 import { ReactComponent as HouseICON } from "../userIcons/house.svg";
 import { ReactComponent as HotelICON } from "../userIcons/hotel.svg";
 import { gameConfig } from "../Config/config";
+import { sizesTheme } from "../Config/theme";
 
 export interface CellProps {
   num: number;
@@ -28,17 +29,17 @@ function Cell(props: CellProps) {
 
 const styles = {
   cell: {
-    height: "8em",
-    width: "8em",
+    height: sizesTheme.cellWidth,
+    width: sizesTheme.cellWidth,
     border: "1px solid black",
   },
   headerSection: {
-    height: "2em",
+    height: sizesTheme.selectionHeight,
     padding: "0.5em 0",
   },
   svg: {
-    height: "1.8em",
-    width: "1.8em",
+    height: sizesTheme.iconSize,
+    width: sizesTheme.iconSize,
   },
 };
 
