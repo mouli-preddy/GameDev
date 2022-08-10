@@ -1,6 +1,7 @@
 export const sizesTheme = {
-  cellWidth: "8em",
+  cellWidth: "10em",
   selectionHeight: "2em",
   iconSize: "1.8em",
-  overallBoardWidth: "93em",
+  overallBoardWidth: "116em",
+  boardFontSize: "10px",
 };

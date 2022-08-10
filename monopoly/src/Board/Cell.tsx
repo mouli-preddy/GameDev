@@ -16,13 +16,13 @@ function Cell(props: CellProps) {
   const houseSymbols =
     houses && houses > 0
       ? Array.from(Array(houses).keys()).map((i) => (
-          <HouseICON style={styles.svg} />
+          <HouseICON key={i} style={styles.svg} />
         ))
       : null;
   const hotelSymbols =
     hotels && hotels > 0
       ? Array.from(Array(hotels).keys()).map((i) => (
-          <HotelICON style={styles.svg} />
+          <HotelICON key={i} style={styles.svg} />
         ))
       : null;
 
@@ -34,7 +34,7 @@ function Cell(props: CellProps) {
         {houseSymbols}
         {hotelSymbols}
       </div>
-      {config.name}
+      {config.name.toUpperCase()}
       {config.rentValue && <div>$ {config.rentValue}</div>}
     </div>
   );

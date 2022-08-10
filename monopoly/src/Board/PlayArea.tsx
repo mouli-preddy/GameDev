@@ -4,11 +4,12 @@ import Cell from "./Cell";
 import { SelectedArea } from "./SelectedArea";
 
 interface PlayAreaProps {
-  game: GameConfig;
+  players: PlayerConfig[];
+  properties: PropertyConfig[];
 }
 
 function PlayArea(props: PlayAreaProps) {
-  const { players, properties } = props.game;
+  const { players, properties } = props;
 
   function getTopRow() {
     var chosen = [<th key="-2"></th>];
@@ -16,7 +17,11 @@ function PlayArea(props: PlayAreaProps) {
     for (var i = 20; i <= 30; i++) {
       chosen.push(
         <th key={i}>
-          <SelectedArea cellNum={i} />
+          <SelectedArea
+            cellNum={i}
+            usersToShow={getSelectedUsers(i)}
+            ownerColor={getOwnerIdColor(i)}
+          />
         </th>
       );
       cells.push(
@@ -35,19 +40,38 @@ function PlayArea(props: PlayAreaProps) {
     );
   }
 
-  function getCellConfig(i: number) {
-    const configs = properties.filter((p: PropertyConfig) => p.id == i);
-    const config = configs && configs.length > 0 ? configs[0] : null;
-    return config;
-  }
-
-  function getSelectedUsers(cellNum: number) {
-    const configs = players.filter(
-      (p: PlayerConfig) => p.currentPosition == cellNum
+  function getMiddleRow(rowNum: number) {
+    const centerPieces = [];
+    for (var i = 0; i < 9; i++) {
+      centerPieces.push(<th key={i}></th>);
+    }
+    const topI = 20 - rowNum;
+    const bottomI = 30 + rowNum;
+    return (
+      <tr key={rowNum}>
+        <th key="-2">
+          <SelectedArea
+            cellNum={topI}
+            usersToShow={getSelectedUsers(topI)}
+            ownerColor={getOwnerIdColor(topI)}
+          />
+        </th>
+        <th key="-1">
+          <Cell num={topI} cellConfig={getCellConfig(topI)} />
+        </th>
+        {centerPieces}
+        <th key="100">
+          <Cell num={bottomI} cellConfig={getCellConfig(bottomI)} />
+        </th>
+        <th key="101">
+          <SelectedArea
+            cellNum={bottomI}
+            ownerColor={getOwnerIdColor(bottomI)}
+            usersToShow={getSelectedUsers(bottomI)}
+          />
+        </th>
+      </tr>
     );
-    const config =
-      configs && configs.length > 0 ? configs.map((c) => c.symbolId) : null;
-    return config;
   }
 
   function getBottomRow() {
@@ -56,7 +80,11 @@ function PlayArea(props: PlayAreaProps) {
     for (var i = 10; i >= 0; i--) {
       chosen.push(
         <th key={i}>
-          <SelectedArea cellNum={i} />
+          <SelectedArea
+            cellNum={i}
+            usersToShow={getSelectedUsers(i)}
+            ownerColor={getOwnerIdColor(i)}
+          />
         </th>
       );
       cells.push(
@@ -75,36 +103,34 @@ function PlayArea(props: PlayAreaProps) {
     );
   }
 
-  function getMiddleRow(rowNum: number) {
-    const centerPieces = [];
-    for (var i = 0; i < 9; i++) {
-      centerPieces.push(<th key={i}></th>);
-    }
-    return (
-      <tr key={rowNum}>
-        <th key="-2">
-          <SelectedArea cellNum={20 - rowNum} />
-        </th>
-        <th key="-1">
-          <Cell num={20 - rowNum} cellConfig={getCellConfig(20 - rowNum)} />
-        </th>
-        {centerPieces}
-        <th key="100">
-          <Cell num={30 + rowNum} cellConfig={getCellConfig(30 + rowNum)} />
-        </th>
-        <th key="101">
-          <SelectedArea cellNum={30 + rowNum} />
-        </th>
-      </tr>
-    );
-  }
-
   function getMiddleSection() {
     var rows = [];
     for (var i = 1; i <= 9; i++) {
       rows.push(getMiddleRow(i));
     }
     return rows;
+  }
+
+  function getCellConfig(i: number) {
+    const configs = properties.filter((p: PropertyConfig) => p.id === i);
+    const config = configs && configs.length > 0 ? configs[0] : null;
+    return config;
+  }
+
+  function getSelectedUsers(cellNum: number) {
+    const configs = players.filter(
+      (p: PlayerConfig) => p.currentPosition === cellNum
+    );
+    const config =
+      configs && configs.length > 0 ? configs.map((c) => c.symbolId) : null;
+    return config;
+  }
+
+  function getOwnerIdColor(cellNum: number) {
+    const props = properties.filter((p: PropertyConfig) => p.id === cellNum);
+    return props && props.length > 0
+      ? players[props[0].boughtByPlayerId].colorCode
+      : "ffffff";
   }
 
   return (
@@ -128,6 +154,7 @@ const styles = {
     height: "auto",
     display: "flex",
     flexDirection: "column" as const,
+    fontSize: sizesTheme.boardFontSize,
   },
 };
 

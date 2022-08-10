@@ -8,24 +8,38 @@ import { sizesTheme } from "../Config/theme";
 
 type Props = {
   cellNum: number;
+  ownerColor: string;
+  usersToShow: number[] | null;
 };
 
 export const SelectedArea = (props: Props) => {
-  const { cellNum } = props;
+  const { cellNum, usersToShow, ownerColor } = props;
+
+  function getUserIconsToShow() {
+    var userIcons: any[] = [];
+    if (usersToShow && usersToShow.length > 0) {
+      userIcons = usersToShow.map((userId) => {
+        if (userId === 0) return <CarICON key={userId} style={styles.svg} />;
+        if (userId === 1) return <CapICON key={userId} style={styles.svg} />;
+        if (userId === 2) return <DogICON key={userId} style={styles.svg} />;
+        if (userId === 3) return <DragonICON key={userId} style={styles.svg} />;
+      });
+    }
+    return userIcons;
+  }
+
+  const styleBackgroundContainer = isHorizontalSelection(cellNum)
+    ? styles.logoHorizontal
+    : styles.logoVertical;
+  const stylesConfig = {
+    ...styleBackgroundContainer,
+    backgroundColor: ownerColor,
+    borderColor: ownerColor,
+  };
 
   return (
-    <div
-      id={"" + cellNum}
-      style={
-        isHorizontalSelection(cellNum)
-          ? styles.logoHorizontal
-          : styles.logoVertical
-      }
-    >
-      <CarICON style={styles.svg} />
-      <CapICON style={styles.svg} />
-      <DogICON style={styles.svg} />
-      <DragonICON style={styles.svg} />
+    <div id={cellNum.toString()} style={stylesConfig}>
+      {getUserIconsToShow()}
     </div>
   );
 };
@@ -34,19 +48,18 @@ const styles = {
   logoVertical: {
     height: sizesTheme.cellWidth,
     width: sizesTheme.selectionHeight,
-    backgroundColor: "green",
-    border: "1px solid green",
+    border: "1px solid white",
   },
 
   logoHorizontal: {
     width: sizesTheme.cellWidth,
     height: sizesTheme.selectionHeight,
-    backgroundColor: "green",
-    border: "1px solid green",
+    border: "1px solid white",
   },
 
   svg: {
     height: sizesTheme.iconSize,
     width: sizesTheme.iconSize,
+    margin: "auto",
   },
 };
